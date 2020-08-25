@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrelloV4", "TrelloV4\TrelloV4.csproj", "{0CEED4B4-D79D-47A3-BF04-87D5F9EE68A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrelloV0.0.3", "..\TrelloV0.0.3\TrelloV0.0.3\TrelloV0.0.3.csproj", "{2DBAC86B-06BD-40B7-AC3B-816E2C50A4D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CEED4B4-D79D-47A3-BF04-87D5F9EE68A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEED4B4-D79D-47A3-BF04-87D5F9EE68A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEED4B4-D79D-47A3-BF04-87D5F9EE68A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEED4B4-D79D-47A3-BF04-87D5F9EE68A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DBAC86B-06BD-40B7-AC3B-816E2C50A4D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DBAC86B-06BD-40B7-AC3B-816E2C50A4D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DBAC86B-06BD-40B7-AC3B-816E2C50A4D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DBAC86B-06BD-40B7-AC3B-816E2C50A4D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51059826-6BBA-42E2-93D2-9F1C12314A6F}
+	EndGlobalSection
+EndGlobal
