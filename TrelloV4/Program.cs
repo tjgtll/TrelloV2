@@ -1,10 +1,70 @@
-﻿    using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 using TrelloV0._0._3;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace TrelloV4
 {
+    class Manager
+    {
+        UserManager userManager;
+
+        ClientManager client;
+
+        public Manager()
+        {
+            System.Threading.Tasks.Task asyncTask = WriteText("Старт");
+            userManager = UserManager.Instance;
+
+            userManager = JsonConvert.DeserializeObject<UserManager>(File.ReadAllText("users.json")) != null ? JsonConvert.DeserializeObject<UserManager>(File.ReadAllText("users.json")) : userManager;
+        }
+
+        static async System.Threading.Tasks.Task WriteText(string content)
+        {
+            string file = "logger.txt";
+            char[] Content = Encoding.Default.GetChars(Encoding.Default.GetBytes($"{DateTime.Now} {content}"));
+            using (StreamWriter outputFile = new StreamWriter(file, true))
+            {
+                await outputFile.WriteLineAsync(Content, 0, Content.Length);
+            }
+        }
+
+        public  bool Registration(string FirstName, string LastName, string MiddleName, string Mail, string Password)
+        {
+            System.Threading.Tasks.Task asyncTask;
+            if (userManager.Add(FirstName, LastName, MiddleName, Mail, Password))
+            {
+                File.WriteAllText("users.json", JsonConvert.SerializeObject(userManager));
+                asyncTask = WriteText($"Регистрация true: \nfN: {FirstName}, \nlN: {LastName}, \nmN: {MiddleName}, \nm: {Mail}, \np: {Password}");
+                return true;
+            }
+            asyncTask = WriteText($"Регистрация false: \nfN: {FirstName}, \nlN: {LastName}, \nmN: {MiddleName}, \nm: {Mail}, \np: {Password}");
+            return false;
+
+        }
+        
+        public bool Entry(string Mail, string Password)
+        {
+            System.Threading.Tasks.Task asyncTask;
+            try
+            {
+                ClientManager client = new ClientManager(userManager.Entry(Mail, Password));
+                asyncTask = WriteText($"Вход m:{Mail}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                asyncTask = WriteText($"Fatal: {e.Message}");
+            }
+            return false;
+        }
+
+    }
+
     class ClientManager
     {
         public delegate void ClientHandler(string message);
@@ -53,39 +113,17 @@ namespace TrelloV4
             Console.WriteLine();
         }
     }
-    
+
     class Program
     {
+        
         static void Main(string[] args)
         {
-            UserManager userManager = UserManager.Instance;
-            userManager = JsonConvert.DeserializeObject<UserManager>(File.ReadAllText("users.json"));
-            userManager.Add("Володин", "Николай","Юрьевич", "urkona@list.ru", "1111");
-            File.WriteAllText("users.json", JsonConvert.SerializeObject(userManager));
+            Manager manager = new Manager();
             
-            try
-            {
-                userManager = JsonConvert.DeserializeObject<UserManager>(File.ReadAllText("users.json"));
-                //Если пароль или логин неверный то в e.Message будет сообщение об этом 
-                ClientManager client = new ClientManager(userManager.Entry("urkona@list.ru", "1121"));
-                File.WriteAllText("users.json", JsonConvert.SerializeObject(userManager));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            //неверный логин
-            try
-            {
-                userManager = JsonConvert.DeserializeObject<UserManager>(File.ReadAllText("users.json"));
-                //Если пароль или логин неверный то в e.Message будет сообщение об этом 
-                ClientManager client = new ClientManager(userManager.Entry("urkona@list", "1111"));
-                File.WriteAllText("users.json", JsonConvert.SerializeObject(userManager));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            Console.WriteLine(manager.Registration("Володин", "Николай", "Юрьевич", "urkona@list.ru", "1111"));
+
+            Console.WriteLine(manager.Entry("urkona@list.ru", "1111"));
 
         }
     }
